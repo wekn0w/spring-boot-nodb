@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import app.web.service.GenreService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class GenreController {
@@ -18,37 +20,31 @@ public class GenreController {
         this.service = service;
     }
 
-    @RequestMapping(
-            value = "/genre",
-            method = RequestMethod.GET
-    )
-    //todo слой dto
-    public List<Genre> get() {
+    @GetMapping(value = "/genre")
+    public Map<UUID, Genre> get() {
         return service.findAll();
     }
 
     @GetMapping("/genre/{id}")
-    //todo слой dto
-    public Genre getById(@PathVariable("id") int id) {
+    public Genre getById(@PathVariable("id") UUID id) {
         Genre genre = service.getOneById(id);
         return genre;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/genre/")
-    //todo слой dto
     public Genre create(@RequestBody Genre dto) {
         return service.save(dto);
     }
 
     @DeleteMapping("/genre/{id}")
-    public void delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable("id") UUID id) {
         service.deleteById(id);
     }
 
     @PutMapping("/genre/{id}/name")
     public void changeName(
-            @PathVariable("id") int id,
+            @PathVariable("id") UUID id,
             @RequestParam("name") String name
     ) {
         Genre genre = service.getOneById(id);

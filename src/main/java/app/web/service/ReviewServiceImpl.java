@@ -3,29 +3,24 @@ package app.web.service;
 import app.web.domain.Review;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
-public class ReviewServiceImpl implements ReviewService{
+public class ReviewServiceImpl implements ReviewService {
 
-    private final List<Review> collection = new ArrayList<>();
+    private Map<UUID, Review> collection = new HashMap<>();
 
     @Override
-    public List<Review> findAll() {
+    public Map<UUID, Review> findAll() {
         return collection;
     }
 
     @Override
-    public Review getOneById(long id) {
-        Review finded = null;
-        for (Review item : collection) {
-            if (id == (item.getId())) {
-                finded = item;
-                break;
-            }
-        }
-        return finded;
+    public Review getOneById(UUID id) {
+        Map.Entry<UUID, Review> entry = collection.entrySet().stream().filter(item -> id.equals(item.getKey())).findFirst().orElse(null);
+        return entry != null ? entry.getValue() : null;
     }
 
     @Override
@@ -34,20 +29,22 @@ public class ReviewServiceImpl implements ReviewService{
         return updated != null ? updateItem(updated, review) : insertItem(review);
     }
 
-    private Review insertItem(Review newReview) {
-        collection.add(newReview);
-        return newReview;
-    }
-
-    private Review updateItem(Review oldReview, Review newReview) {
-        oldReview.setComment(newReview.getComment());
-        return oldReview;
-    }
-
     @Override
-    public void deleteById(long id) {
+    public void deleteById(UUID id) {
         Review finded = getOneById(id);
         if (finded != null)
             collection.remove(finded);
+    }
+
+    private Review insertItem(Review newReview) {
+        UUID id = UUID.randomUUID();
+        Review review = new Review(id, newReview.getComment());
+        collection.put(id, review);
+        return review;
+    }
+
+    private Review updateItem(Review oldReview, Review newReview) {
+        collection.put(oldReview.getId(), newReview);
+        return newReview;
     }
 }

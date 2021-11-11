@@ -2,14 +2,15 @@ package app.web.service;
 
 import app.web.domain.Author;
 
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public interface AuthorService {
-    List<Author> findAll();
+    Map<UUID, Author> findAll();
 
-    Author getOneById(long id);
+    Author getOneById(UUID id);
 
     Author save(Author person);
 
-    void deleteById(long id);
+    void deleteById(UUID id);
 }

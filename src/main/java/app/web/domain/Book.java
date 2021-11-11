@@ -4,12 +4,14 @@ import java.util.UUID;
 
 public class Book {
 
-    private Long id;
+    private UUID id;
     private String name;
     private Genre bookGenre;
 
-    public Book() {
-        this.id = UUID.randomUUID().getMostSignificantBits();
+    public Book(UUID id, String name, Genre bookGenre) {
+        this.id = id;
+        this.name = name;
+        this.bookGenre = bookGenre;
     }
 
     public String getName() {
@@ -28,11 +30,11 @@ public class Book {
         this.bookGenre = bookGenre;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

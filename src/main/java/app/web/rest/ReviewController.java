@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import app.web.service.ReviewService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class ReviewController {
@@ -18,37 +20,31 @@ public class ReviewController {
         this.service = service;
     }
 
-    @RequestMapping(
-            value = "/review",
-            method = RequestMethod.GET
-    )
-    //todo слой dto
-    public List<Review> get() {
+    @GetMapping(value = "/review")
+    public Map<UUID, Review> get() {
         return service.findAll();
     }
 
     @GetMapping("/review/{id}")
-    //todo слой dto
-    public Review getById(@PathVariable("id") int id) {
+    public Review getById(@PathVariable("id") UUID id) {
         Review review = service.getOneById(id);
         return review;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/review/")
-    //todo слой dto
     public Review create(@RequestBody Review dto) {
         return service.save(dto);
     }
 
     @DeleteMapping("/review/{id}")
-    public void delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable("id") UUID id) {
         service.deleteById(id);
     }
 
     @PutMapping("/review/{id}/comment")
     public void changeName(
-            @PathVariable("id") int id,
+            @PathVariable("id") UUID id,
             @RequestParam("comment") String comment
     ) {
         Review review = service.getOneById(id);

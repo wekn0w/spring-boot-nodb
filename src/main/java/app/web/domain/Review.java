@@ -3,14 +3,14 @@ package app.web.domain;
 import java.util.UUID;
 
 public class Review {
-    private Long id;
+    private UUID id;
     private String comment;
 
     public Review() {
     }
 
-    public Review(String comment) {
-        this.id = UUID.randomUUID().getMostSignificantBits();
+    public Review(UUID id, String comment) {
+        this.id = id;
         this.comment = comment;
     }
 
@@ -22,11 +22,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

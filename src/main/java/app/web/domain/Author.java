@@ -4,26 +4,17 @@ import java.util.UUID;
 
 public class Author {
 
-    private Long id;
+    private UUID id;
     private String fullname;
     private Integer age;
 
-    public Author() {
-        this.id = UUID.randomUUID().getMostSignificantBits();
-    }
-
-    public Author(String name) {
-        this.id = UUID.randomUUID().getMostSignificantBits();
-        this.fullname = name;
-    }
-
-    public Author(String name, int age) {
-        this.id = UUID.randomUUID().getMostSignificantBits();
+    public Author(UUID id, String name, int age) {
+        this.id = id;
         this.fullname = name;
         this.age = age;
     }
 
-   public String getFullname() {
+    public String getFullname() {
         return fullname;
     }
 
@@ -39,11 +30,11 @@ public class Author {
         this.age = age;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

@@ -3,16 +3,12 @@ package app.web.domain;
 import java.util.UUID;
 
 public class Genre {
-    private Long id;
+    private UUID id;
     private String name;
 
-    public Genre() {
-        this.id = UUID.randomUUID().getMostSignificantBits();
-    }
-
-    public Genre(BookGenres name) {
-        this.id = UUID.randomUUID().getMostSignificantBits();
-        this.name = name.getDisplayValue();
+    public Genre(UUID id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public String getName() {
@@ -23,11 +19,11 @@ public class Genre {
         this.name = name;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

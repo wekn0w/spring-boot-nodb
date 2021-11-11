@@ -3,29 +3,24 @@ package app.web.service;
 import app.web.domain.Book;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final List<Book> collection = new ArrayList<>();
+    private Map<UUID, Book> collection = new HashMap<>();
 
     @Override
-    public List<Book> findAll() {
+    public Map<UUID, Book> findAll() {
         return collection;
     }
 
     @Override
-    public Book getOneById(long id) {
-        Book finded = null;
-        for (Book item : collection) {
-            if (id == (item.getId())) {
-                finded = item;
-                break;
-            }
-        }
-        return finded;
+    public Book getOneById(UUID id) {
+        Map.Entry<UUID, Book> entry = collection.entrySet().stream().filter(item -> id.equals(item.getKey())).findFirst().orElse(null);
+        return entry != null ? entry.getValue() : null;
     }
 
     @Override
@@ -34,21 +29,22 @@ public class BookServiceImpl implements BookService {
         return updated != null ? updateItem(updated, book) : insertItem(book);
     }
 
-    private Book insertItem(Book newBook) {
-        collection.add(newBook);
-        return newBook;
-    }
-
-    private Book updateItem(Book oldBook, Book newBook) {
-        oldBook.setBookGenre(newBook.getBookGenre());
-        oldBook.setName(newBook.getName());
-        return oldBook;
-    }
-
     @Override
-    public void deleteById(long id) {
+    public void deleteById(UUID id) {
         Book finded = getOneById(id);
         if (finded != null)
             collection.remove(finded);
+    }
+
+    private Book insertItem(Book newBook) {
+        UUID id = UUID.randomUUID();
+        Book book = new Book(id, newBook.getName(), newBook.getBookGenre());
+        collection.put(id, book);
+        return book;
+    }
+
+    private Book updateItem(Book oldBook, Book newBook) {
+        collection.put(oldBook.getId(), newBook);
+        return newBook;
     }
 }

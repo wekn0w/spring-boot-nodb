@@ -3,29 +3,24 @@ package app.web.service;
 import app.web.domain.Genre;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
-public class GenreServiceImpl implements GenreService{
+public class GenreServiceImpl implements GenreService {
 
-    private final List<Genre> collection = new ArrayList<>();
+    private Map<UUID, Genre> collection = new HashMap<>();
 
     @Override
-    public List<Genre> findAll() {
+    public Map<UUID, Genre> findAll() {
         return collection;
     }
 
     @Override
-    public Genre getOneById(long id) {
-        Genre finded = null;
-        for (Genre item : collection) {
-            if (id == (item.getId())) {
-                finded = item;
-                break;
-            }
-        }
-        return finded;
+    public Genre getOneById(UUID id) {
+        Map.Entry<UUID, Genre> entry = collection.entrySet().stream().filter(item -> id.equals(item.getKey())).findFirst().orElse(null);
+        return entry != null ? entry.getValue() : null;
     }
 
     @Override
@@ -34,20 +29,22 @@ public class GenreServiceImpl implements GenreService{
         return updated != null ? updateItem(updated, genre) : insertItem(genre);
     }
 
-    private Genre insertItem(Genre newGenre) {
-        collection.add(newGenre);
-        return newGenre;
-    }
-
-    private Genre updateItem(Genre oldGenre, Genre newGenre) {
-        oldGenre.setName(newGenre.getName());
-        return oldGenre;
-    }
-
     @Override
-    public void deleteById(long id) {
+    public void deleteById(UUID id) {
         Genre finded = getOneById(id);
         if (finded != null)
             collection.remove(finded);
+    }
+
+    private Genre insertItem(Genre newGenre) {
+        UUID id = UUID.randomUUID();
+        Genre genre = new Genre(id, newGenre.getName());
+        collection.put(id, genre);
+        return genre;
+    }
+
+    private Genre updateItem(Genre oldGenre, Genre newGenre) {
+        collection.put(oldGenre.getId(), newGenre);
+        return newGenre;
     }
 }

@@ -2,14 +2,15 @@ package app.web.service;
 
 import app.web.domain.Book;
 
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public interface BookService {
-    List<Book> findAll();
+    Map<UUID, Book> findAll();
 
-    Book getOneById(long id);
+    Book getOneById(UUID id);
 
     Book save(Book person);
 
-    void deleteById(long id);
+    void deleteById(UUID id);
 }

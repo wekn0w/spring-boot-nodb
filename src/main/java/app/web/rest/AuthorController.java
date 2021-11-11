@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import app.web.service.AuthorService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class AuthorController {
@@ -18,37 +20,31 @@ public class AuthorController {
         this.service = service;
     }
 
-    @RequestMapping(
-            value = "/author",
-            method = RequestMethod.GET
-    )
-    //todo слой dto
-    public List<Author> get() {
+    @GetMapping(value = "/author")
+    public Map<UUID, Author> get() {
         return service.findAll();
     }
 
     @GetMapping("/author/{id}")
-    //todo слой dto
-    public Author getById(@PathVariable("id") int id) {
+    public Author getById(@PathVariable("id") UUID id) {
         Author person = service.getOneById(id);
         return person;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/author/")
-    //todo слой dto
     public Author create(@RequestBody Author dto) {
         return service.save(dto);
     }
 
     @DeleteMapping("/author/{id}")
-    public void delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable("id") UUID id) {
         service.deleteById(id);
     }
 
     @PutMapping("/author/{id}/name")
     public void changeName(
-            @PathVariable("id") int id,
+            @PathVariable("id") UUID id,
             @RequestParam("name") String name
     ) {
         Author person = service.getOneById(id);
