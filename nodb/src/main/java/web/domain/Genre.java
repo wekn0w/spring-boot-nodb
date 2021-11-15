@@ -1,17 +1,14 @@
-package app.web.domain;
+package web.domain;
 
 import java.util.UUID;
 
-public class Book {
-
+public class Genre {
     private UUID id;
     private String name;
-    private Genre bookGenre;
 
-    public Book(UUID id, String name, Genre bookGenre) {
+    public Genre(UUID id, String name) {
         this.id = id;
         this.name = name;
-        this.bookGenre = bookGenre;
     }
 
     public String getName() {
@@ -20,14 +17,6 @@ public class Book {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Genre getBookGenre() {
-        return bookGenre;
-    }
-
-    public void setBookGenre(Genre bookGenre) {
-        this.bookGenre = bookGenre;
     }
 
     public UUID getId() {

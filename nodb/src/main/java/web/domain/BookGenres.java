@@ -1,4 +1,4 @@
-package app.web.domain;
+package web.domain;
 
 public enum BookGenres {
     fiction("Fiction"),

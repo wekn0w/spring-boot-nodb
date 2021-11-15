@@ -1,6 +1,6 @@
-package app.web.service;
+package web.service;
 
-import app.web.domain.Book;
+import web.domain.Book;
 
 import java.util.Map;
 import java.util.UUID;

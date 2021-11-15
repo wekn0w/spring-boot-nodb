@@ -1,8 +1,8 @@
-package app.web.rest;
+package web.rest;
 
-import app.web.domain.Book;
-import app.web.service.BookService;
-import app.web.service.GenreService;
+import web.domain.Book;
+import web.service.BookService;
+import web.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

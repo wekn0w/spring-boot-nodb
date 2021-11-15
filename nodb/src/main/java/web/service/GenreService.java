@@ -1,6 +1,6 @@
-package app.web.service;
+package web.service;
 
-import app.web.domain.Genre;
+import web.domain.Genre;
 
 import java.util.Map;
 import java.util.UUID;

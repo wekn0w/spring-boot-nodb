@@ -1,12 +1,11 @@
-package app.web.rest;
+package web.rest;
 
-import app.web.domain.Review;
+import web.domain.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import app.web.service.ReviewService;
+import web.service.ReviewService;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 

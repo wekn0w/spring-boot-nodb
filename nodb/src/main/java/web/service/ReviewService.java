@@ -1,6 +1,6 @@
-package app.web.service;
+package web.service;
 
-import app.web.domain.Review;
+import web.domain.Review;
 
 import java.util.Map;
 import java.util.UUID;

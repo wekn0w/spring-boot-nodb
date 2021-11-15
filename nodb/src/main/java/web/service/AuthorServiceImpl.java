@@ -1,6 +1,6 @@
-package app.web.service;
+package web.service;
 
-import app.web.domain.Author;
+import web.domain.Author;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

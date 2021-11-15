@@ -1,12 +1,11 @@
-package app.web.rest;
+package web.rest;
 
-import app.web.domain.Author;
+import web.domain.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import app.web.service.AuthorService;
+import web.service.AuthorService;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
