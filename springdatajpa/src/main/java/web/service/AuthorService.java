@@ -1,16 +1,19 @@
 package web.service;
 
 import javassist.NotFoundException;
-import web.domain.Author;
+import web.dto.AuthorDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface AuthorService {
-    List<Author> findAll();
+    List<AuthorDto> findAll();
 
-    Author getOneById(Long id) throws NotFoundException;
+    AuthorDto getOneById(Long id) throws NotFoundException;
 
-    Author save(Author person);
+    @Transactional//for JpaRepository.save
+    AuthorDto save(AuthorDto person);
 
+    @Transactional//for JpaRepository.deleteById
     void deleteById(Long id);
 }

@@ -1,27 +1,22 @@
-package web.domain;
+package web.dto;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+public class AuthorDto {
 
-@Entity
-@Table(name = "Author")
-public class Author {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullname;
     private Integer age;
 
-    @ManyToMany(mappedBy = "authors")
-    private Set<Book> books = new HashSet<>();
-
-    public Author() {
+    public AuthorDto() {
     }
 
-    public Author(String name, int age) {
-        this.fullname = name;
+    public AuthorDto(String fullname, Integer age) {
+        this.fullname = fullname;
+        this.age = age;
+    }
+
+    public AuthorDto(Long id, String fullname, Integer age) {
+        this.id = id;
+        this.fullname = fullname;
         this.age = age;
     }
 

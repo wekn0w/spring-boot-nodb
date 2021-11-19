@@ -1,15 +1,18 @@
 package web.service;
 
-import web.domain.Genre;
+import web.dto.GenreDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface GenreService {
-    List<Genre> findAll();
+    List<GenreDto> findAll();
 
-    Genre getOneById(Long id);
+    GenreDto getOneById(Long id);
 
-    Genre save(Genre person);
+    @Transactional
+    GenreDto save(GenreDto genre);
 
+    @Transactional
     void deleteById(Long id);
 }

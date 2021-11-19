@@ -1,15 +1,18 @@
 package web.service;
 
-import web.domain.Review;
+import web.dto.ReviewDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface ReviewService {
-    List<Review> findAll();
+    List<ReviewDto> findAll();
 
-    Review getOneById(Long id);
+    ReviewDto getOneById(Long id);
 
-    Review save(Review person);
+    @Transactional
+    ReviewDto save(ReviewDto person);
 
+    @Transactional
     void deleteById(Long id);
 }

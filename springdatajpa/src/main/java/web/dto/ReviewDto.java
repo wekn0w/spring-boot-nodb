@@ -1,26 +1,20 @@
-package web.domain;
+package web.dto;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "Review")
-public class Review {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ReviewDto {
     private Long id;
     private String comment;
+    private BookDto book;
 
-    @ManyToOne
-    private Book book;
-
-    public Review() {
+    public ReviewDto() {
     }
 
-    public Review(Long id, String comment) {
+    public ReviewDto(Long id, String comment) {
+        this.id = id;
         this.comment = comment;
     }
 
-    public Review(String comment, Book book) {
+    public ReviewDto(Long id, String comment, BookDto book) {
+        this.id = id;
         this.comment = comment;
         this.book = book;
     }
@@ -41,11 +35,11 @@ public class Review {
         this.id = id;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public BookDto getBook() {
+        return book;
     }
 
-    public Book getBook() {
-        return book;
+    public void setBook(BookDto book) {
+        this.book = book;
     }
 }

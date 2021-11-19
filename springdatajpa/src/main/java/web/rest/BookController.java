@@ -3,7 +3,7 @@ package web.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import web.domain.Book;
+import web.dto.BookDto;
 import web.service.BookService;
 import web.service.GenreService;
 
@@ -23,18 +23,18 @@ public class BookController {
     }
 
     @GetMapping(value = "/book")
-    public List<Book> get() {
+    public List<BookDto> get() {
         return service.findAll();
     }
 
     @GetMapping("/book/{id}")
-    public Book getById(@PathVariable("id") Long id) {
+    public BookDto getById(@PathVariable("id") Long id) {
         return service.getOneById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/book/")
-    public Book create(@RequestBody Book dto) {
+    public BookDto create(@RequestBody BookDto dto) {
         return service.save(dto);
     }
 
@@ -48,7 +48,7 @@ public class BookController {
             @PathVariable("id") Long id,
             @RequestParam("name") String name
     ) {
-        Book book = service.getOneById(id);
+        BookDto book = service.getOneById(id);
         book.setName(name);
         service.save(book);
     }

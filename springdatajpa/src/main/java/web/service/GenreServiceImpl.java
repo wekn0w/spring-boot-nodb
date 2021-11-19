@@ -3,35 +3,45 @@ package web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.domain.Genre;
+import web.dto.GenreDto;
 import web.repo.GenreRepo;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class GenreServiceImpl implements GenreService {
 
-    @Autowired
     private GenreRepo genreRepository;
 
-    @Override
-    public List<Genre> findAll() {
-        return genreRepository.findAll();
+    @Autowired
+    public GenreServiceImpl(GenreRepo genreRepository) {
+        this.genreRepository = genreRepository;
     }
 
     @Override
-    public Genre getOneById(Long id) {
-        return genreRepository.findById(id).orElse(null);
+    public List<GenreDto> findAll() {
+        List<Genre> genres = genreRepository.findAll();
+        List<GenreDto> resultList = new ArrayList<>();
+        genres.forEach(i -> resultList.add(new GenreDto(i.getId(), i.getName())));
+        return resultList;
     }
 
     @Override
-    public Genre save(Genre genre) {
+    public GenreDto getOneById(Long id) {
+        Genre stored = genreRepository.findById(id).orElse(new Genre());
+        return new GenreDto(stored.getId(), stored.getName());
+    }
+
+    @Override
+    public GenreDto save(GenreDto genre) {
         Genre newGenre = genreRepository.findById(genre.getId()).orElse(new Genre());
         if (genre.getName() != null && !genre.getName().isEmpty()) {
             newGenre.setName(genre.getName());
         }
-        return genreRepository.save(newGenre);
+        Genre saved = genreRepository.save(newGenre);
+        return new GenreDto(saved.getId(), saved.getName());
     }
 
     @Override
