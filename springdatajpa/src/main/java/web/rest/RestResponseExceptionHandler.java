@@ -12,11 +12,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
-    protected ResponseEntity<Object> handleConflict(
-            NotFoundException ex, WebRequest request) {
+    @ExceptionHandler(NotFoundException.class)
+    protected ResponseEntity<Object> handleConflict(NotFoundException ex, WebRequest request) {
         String bodyOfResponse = "Record not found!";
-        return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.CONFLICT, request);
+        return new ResponseEntity<>(bodyOfResponse, HttpStatus.NOT_FOUND);
     }
 }
