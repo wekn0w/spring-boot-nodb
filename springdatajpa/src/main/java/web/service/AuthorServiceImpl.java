@@ -1,7 +1,6 @@
 package web.service;
 
 import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.domain.Author;
 import web.dto.AuthorDto;
@@ -16,7 +15,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepo userRepository;
 
-    @Autowired
     public AuthorServiceImpl(AuthorRepo userRepository) {
         this.userRepository = userRepository;
     }

@@ -21,6 +21,9 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "AUTHOR_ID"))
     private Set<Author> authors;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    private List<Review> reviews;
+
     public Book(String name, Set<Genre> bookGenres, Set<Author> bookAuthors) {
         this.name = name;
         this.bookGenres = bookGenres;
@@ -64,5 +67,13 @@ public class Book {
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

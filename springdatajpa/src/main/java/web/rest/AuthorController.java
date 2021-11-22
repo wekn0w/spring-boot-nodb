@@ -1,7 +1,6 @@
 package web.rest;
 
 import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import web.dto.AuthorDto;
@@ -14,7 +13,6 @@ public class AuthorController {
 
     private final AuthorService service;
 
-    @Autowired
     public AuthorController(AuthorService service) {
         this.service = service;
     }

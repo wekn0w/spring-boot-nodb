@@ -1,6 +1,5 @@
 package web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import web.dto.BookDto;
@@ -16,7 +15,6 @@ public class BookController {
 
     private final GenreService genreService;
 
-    @Autowired
     public BookController(BookService service, GenreService genreService) {
         this.service = service;
         this.genreService = genreService;

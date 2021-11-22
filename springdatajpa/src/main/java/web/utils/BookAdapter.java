@@ -1,5 +1,6 @@
 package web.utils;
 
+import org.springframework.stereotype.Component;
 import web.domain.Book;
 import web.dto.AuthorDto;
 import web.dto.BookDto;
@@ -8,6 +9,7 @@ import web.dto.GenreDto;
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class BookAdapter {
 
     public BookDto convertToDto(Book saved) {

@@ -1,6 +1,5 @@
 package web.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.domain.Author;
 import web.domain.Book;
@@ -26,19 +25,19 @@ public class BookServiceImpl implements BookService {
     private BookRepo bookRepository;
     private GenreRepo genreRepository;
     private AuthorRepo authorRepository;
+    private BookAdapter bookAdapter;
 
-    @Autowired
-    public BookServiceImpl(BookRepo bookRepository, GenreRepo genreRepository, AuthorRepo authorRepository) {
+    public BookServiceImpl(BookRepo bookRepository, GenreRepo genreRepository, AuthorRepo authorRepository, BookAdapter bookAdapter) {
         this.bookRepository = bookRepository;
         this.genreRepository = genreRepository;
         this.authorRepository = authorRepository;
+        this.bookAdapter = bookAdapter;
     }
 
     @Override
     public List<BookDto> findAll() {
         List<Book> books = bookRepository.findAll();
         List<BookDto> resultList = new ArrayList<>();
-        BookAdapter bookAdapter = new BookAdapter();
         for (Book record : books) {
             BookDto dto = bookAdapter.convertToDto(record);
             resultList.add(dto);
@@ -71,7 +70,7 @@ public class BookServiceImpl implements BookService {
             newBook.setAuthors(authors);
         }
         Book saved = bookRepository.save(newBook);
-        return new BookAdapter().convertToDto(saved);
+        return bookAdapter.convertToDto(saved);
     }
 
     @Transactional

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import web.domain.Book;
 import web.domain.Review;
@@ -12,6 +13,7 @@ import web.dto.BookDto;
 import web.dto.ReviewDto;
 import web.repo.BookRepo;
 import web.repo.ReviewRepo;
+import web.utils.BookAdapter;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,6 +32,8 @@ class ReviewServiceImplTest {
     private BookRepo bookRepository;
     @Mock
     private ReviewRepo reviewRepository;
+    @Spy
+    private BookAdapter bookAdapter;
 
     @DisplayName("Should call save method from ReviewRepo and findById from BookRepo when service call save method")
     @Test

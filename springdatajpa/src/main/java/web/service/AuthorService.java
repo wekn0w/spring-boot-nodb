@@ -11,9 +11,11 @@ public interface AuthorService {
 
     AuthorDto getOneById(Long id) throws NotFoundException;
 
-    @Transactional//for JpaRepository.save
+    @Transactional
+//for JpaRepository.save
     AuthorDto save(AuthorDto person);
 
-    @Transactional//for JpaRepository.deleteById
+    @Transactional
+//for JpaRepository.deleteById
     void deleteById(Long id);
 }

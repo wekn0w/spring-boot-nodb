@@ -1,6 +1,5 @@
 package web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import web.dto.ReviewDto;
@@ -13,7 +12,6 @@ public class ReviewController {
 
     private final ReviewService service;
 
-    @Autowired
     public ReviewController(ReviewService service) {
         this.service = service;
     }

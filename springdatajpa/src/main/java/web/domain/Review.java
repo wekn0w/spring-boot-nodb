@@ -11,6 +11,7 @@ public class Review {
     private String comment;
 
     @ManyToOne
+    @JoinColumn(name = "BOOK_ID")
     private Book book;
 
     public Review() {

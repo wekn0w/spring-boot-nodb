@@ -1,8 +1,5 @@
 package web.dto;
 
-import web.domain.Genre;
-
-import java.util.List;
 import java.util.Set;
 
 public class BookDto {

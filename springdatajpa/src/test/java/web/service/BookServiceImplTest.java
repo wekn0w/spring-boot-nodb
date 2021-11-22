@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import web.domain.Author;
 import web.domain.Book;
@@ -15,6 +16,7 @@ import web.dto.GenreDto;
 import web.repo.AuthorRepo;
 import web.repo.BookRepo;
 import web.repo.GenreRepo;
+import web.utils.BookAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +38,8 @@ class BookServiceImplTest {
     private AuthorRepo authorRepository;
     @Mock
     private GenreRepo genreRepository;
+    @Spy
+    private BookAdapter bookAdapter;
 
     @DisplayName("Should call save method from BookRepo and findAllById from AuthorRepo and GenreRepo when service call save method")
     @Test
@@ -43,7 +47,7 @@ class BookServiceImplTest {
         when(bookRepository.save(any())).thenReturn(new Book("fake_book",
                 new HashSet<>(Collections.singleton(new Genre("fake_genre"))),
                 new HashSet<>(Collections.singleton(new Author("fake_name", 11)))));
-        BookDto p = new BookDto( "Lukomorie",
+        BookDto p = new BookDto("Lukomorie",
                 new HashSet<>(Collections.singleton(new GenreDto("Fiction"))),
                 new HashSet<>(Collections.singleton(new AuthorDto("Pushkin", 55)))
         );
