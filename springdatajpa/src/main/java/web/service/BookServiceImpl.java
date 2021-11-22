@@ -2,47 +2,79 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import web.domain.Author;
 import web.domain.Book;
 import web.domain.Genre;
+import web.dto.AuthorDto;
+import web.dto.BookDto;
+import web.dto.GenreDto;
+import web.repo.AuthorRepo;
 import web.repo.BookRepo;
 import web.repo.GenreRepo;
+import web.utils.BookAdapter;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
 
-    @Autowired
     private BookRepo bookRepository;
-    @Autowired
     private GenreRepo genreRepository;
+    private AuthorRepo authorRepository;
 
-    @Override
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    @Autowired
+    public BookServiceImpl(BookRepo bookRepository, GenreRepo genreRepository, AuthorRepo authorRepository) {
+        this.bookRepository = bookRepository;
+        this.genreRepository = genreRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
-    public Book getOneById(Long id) {
-        return bookRepository.findById(id).orElse(new Book());
+    public List<BookDto> findAll() {
+        List<Book> books = bookRepository.findAll();
+        List<BookDto> resultList = new ArrayList<>();
+        BookAdapter bookAdapter = new BookAdapter();
+        for (Book record : books) {
+            BookDto dto = bookAdapter.convertToDto(record);
+            resultList.add(dto);
+        }
+        return resultList;
     }
 
     @Override
-    public Book save(Book book) {
+    public BookDto getOneById(Long id) {
+        Book stored = bookRepository.findById(id).orElse(new Book());
+        return new BookDto(stored.getName());
+    }
+
+    @Transactional
+    @Override
+    public BookDto save(BookDto book) {
         Book newBook = bookRepository.findById(book.getId()).orElse(new Book());
         if (book.getName() != null && !book.getName().isEmpty()) {
             newBook.setName(book.getName());
         }
-        if (book.getBookGenre() != null) {
-            Optional<Genre> genreById = genreRepository.findById(book.getId());
-            genreById.ifPresent(newBook::setBookGenre);
+        if (book.getBookGenres() != null) {
+            //todo подумать над возможном NPE в лямбде
+            List<Genre> genreById = genreRepository.findAllById(book.getBookGenres().stream().map(GenreDto::getId).collect(toSet()));
+            Set<Genre> genres = Set.copyOf(genreById);
+            newBook.setBookGenres(genres);
         }
-        return bookRepository.save(newBook);
+        if (book.getBookAuthors() != null) {
+            List<Author> authorById = authorRepository.findAllById(book.getBookAuthors().stream().map(AuthorDto::getId).collect(toSet()));
+            Set<Author> authors = Set.copyOf(authorById);
+            newBook.setAuthors(authors);
+        }
+        Book saved = bookRepository.save(newBook);
+        return new BookAdapter().convertToDto(saved);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);

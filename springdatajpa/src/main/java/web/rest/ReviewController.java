@@ -3,12 +3,10 @@ package web.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import web.domain.Review;
+import web.dto.ReviewDto;
 import web.service.ReviewService;
 
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @RestController
 public class ReviewController {
@@ -21,19 +19,18 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/review")
-    public List<Review> get() {
+    public List<ReviewDto> get() {
         return service.findAll();
     }
 
     @GetMapping("/review/{id}")
-    public Review getById(@PathVariable("id") Long id) {
-        Review review = service.getOneById(id);
-        return review;
+    public ReviewDto getById(@PathVariable("id") Long id) {
+        return service.getOneById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/review/")
-    public Review create(@RequestBody Review dto) {
+    public ReviewDto create(@RequestBody ReviewDto dto) {
         return service.save(dto);
     }
 
@@ -47,7 +44,7 @@ public class ReviewController {
             @PathVariable("id") Long id,
             @RequestParam("comment") String comment
     ) {
-        Review review = service.getOneById(id);
+        ReviewDto review = service.getOneById(id);
         review.setComment(comment);
         service.save(review);
     }

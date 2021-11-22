@@ -3,7 +3,7 @@ package web.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import web.domain.Genre;
+import web.dto.GenreDto;
 import web.service.GenreService;
 
 import java.util.List;
@@ -19,19 +19,18 @@ public class GenreController {
     }
 
     @GetMapping(value = "/genre")
-    public List<Genre> get() {
+    public List<GenreDto> get() {
         return service.findAll();
     }
 
     @GetMapping("/genre/{id}")
-    public Genre getById(@PathVariable("id") Long id) {
-        Genre genre = service.getOneById(id);
-        return genre;
+    public GenreDto getById(@PathVariable("id") Long id) {
+        return service.getOneById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/genre/")
-    public Genre create(@RequestBody Genre dto) {
+    public GenreDto create(@RequestBody GenreDto dto) {
         return service.save(dto);
     }
 
@@ -45,7 +44,7 @@ public class GenreController {
             @PathVariable("id") Long id,
             @RequestParam("name") String name
     ) {
-        Genre genre = service.getOneById(id);
+        GenreDto genre = service.getOneById(id);
         genre.setName(name);
         service.save(genre);
     }

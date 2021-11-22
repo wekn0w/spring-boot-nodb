@@ -4,7 +4,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import web.domain.Author;
+import web.dto.AuthorDto;
 import web.service.AuthorService;
 
 import java.util.List;
@@ -20,18 +20,18 @@ public class AuthorController {
     }
 
     @GetMapping(value = "/author")
-    public List<Author> get() {
+    public List<AuthorDto> get() {
         return service.findAll();
     }
 
     @GetMapping("/author/{id}")
-    public Author getById(@PathVariable("id") Long id) throws NotFoundException {
+    public AuthorDto getById(@PathVariable("id") Long id) throws NotFoundException {
         return service.getOneById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/author/")
-    public Author create(@RequestBody Author dto) {
+    public AuthorDto create(@RequestBody AuthorDto dto) {
         return service.save(dto);
     }
 
@@ -46,7 +46,7 @@ public class AuthorController {
             @PathVariable("id") Long id,
             @RequestParam("name") String name
     ) throws NotFoundException {
-        Author person = service.getOneById(id);
+        AuthorDto person = service.getOneById(id);
         person.setFullname(name);
         service.save(person);
     }

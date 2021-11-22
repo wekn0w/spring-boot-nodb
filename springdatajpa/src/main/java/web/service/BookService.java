@@ -1,15 +1,18 @@
 package web.service;
 
-import web.domain.Book;
+import web.dto.BookDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface BookService {
-    List<Book> findAll();
+    List<BookDto> findAll();
 
-    Book getOneById(Long id);
+    BookDto getOneById(Long id);
 
-    Book save(Book person);
+    @Transactional
+    BookDto save(BookDto person);
 
+    @Transactional
     void deleteById(Long id);
 }

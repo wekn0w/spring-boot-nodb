@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import web.domain.Author;
+import web.dto.AuthorDto;
 import web.repo.AuthorRepo;
 
 import java.util.Optional;
@@ -47,8 +48,8 @@ class AuthorServiceImplTest {
     @Test
     void shouldCallRepositoryOnSave() {
         when(repository.save(any())).thenReturn(new Author("fake_name", 11));
-        Author p = new Author("Human_name", 18);
-        Author saved = service.save(p);
+        AuthorDto p = new AuthorDto("Human_name", 18);
+        AuthorDto saved = service.save(p);
         verify(repository, times(1)).save(any());
         assertThat(saved.getFullname()).isGreaterThanOrEqualTo("FAKE_NAME");
         //check captor
