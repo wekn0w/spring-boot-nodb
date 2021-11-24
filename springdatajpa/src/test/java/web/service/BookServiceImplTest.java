@@ -45,19 +45,19 @@ class BookServiceImplTest {
     @Test
     void shouldCallRepositoryOnSave() {
         when(bookRepository.save(any())).thenReturn(new Book("fake_book",
-                new HashSet<>(Collections.singleton(new Genre("fake_genre"))),
+                new Genre("fake_genre"),
                 new HashSet<>(Collections.singleton(new Author("fake_name", 11)))));
         BookDto p = new BookDto("Lukomorie",
-                new HashSet<>(Collections.singleton(new GenreDto("Fiction"))),
+                new GenreDto("Fiction"),
                 new HashSet<>(Collections.singleton(new AuthorDto("Pushkin", 55)))
         );
         BookDto saved = service.save(p);
         verify(bookRepository, times(1)).save(any());
         verify(authorRepository, times(1)).findAllById(any());
-        verify(genreRepository, times(1)).findAllById(any());
+        verify(genreRepository, times(1)).findById(any());
         assertAll(() -> assertThat(saved.getName()).isGreaterThanOrEqualTo("FAKE_BOOK"),
-                () -> assertThat(saved.getBookGenres()).isNotNull(),
-                () -> assertThat(saved.getBookGenres().size()).isOne(),
+                () -> assertThat(saved.getBookGenre()).isNotNull(),
+                () -> assertThat(saved.getBookGenre().getName()).isGreaterThanOrEqualTo("FAKE_GENRE"),
                 () -> assertThat(saved.getBookAuthors()).isNotNull(),
                 () -> assertThat(saved.getBookAuthors().size()).isOne()
         );
@@ -67,7 +67,7 @@ class BookServiceImplTest {
     @Test
     void shouldCallRepositoryOnFindAll() {
         when(bookRepository.findAll()).thenReturn(new ArrayList<>(Collections.singleton(new Book("fake_book",
-                new HashSet<>(Collections.singleton(new Genre("fake_genre"))),
+                new Genre("fake_genre"),
                 new HashSet<>(Collections.singleton(new Author("fake_name", 11)))))));
 
         List<BookDto> savedList = service.findAll();
@@ -75,7 +75,8 @@ class BookServiceImplTest {
         assertAll(() -> assertThat(savedList).isNotNull(),
                 () -> assertThat(savedList.size()).isOne(),
                 () -> assertThat(savedList.get(0).getName()).isGreaterThanOrEqualTo("FAKE_BOOK"),
-                () -> assertThat(savedList.get(0).getBookGenres().size()).isOne(),
+                () -> assertThat(savedList.get(0).getBookGenre()).isNotNull(),
+                () -> assertThat(savedList.get(0).getBookGenre().getName()).isGreaterThanOrEqualTo("FAKE_GENRE"),
                 () -> assertThat(savedList.get(0).getBookAuthors()).isNotNull(),
                 () -> assertThat(savedList.get(0).getBookAuthors().size()).isOne()
         );

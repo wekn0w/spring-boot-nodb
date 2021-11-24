@@ -12,8 +12,9 @@ public class Book {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "book")
-    private Set<Genre> bookGenres;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="BOOK_ID")
+    private Genre bookGenre;
 
     @ManyToMany
     @JoinTable(name = "BOOK_AUTHORS",
@@ -24,9 +25,9 @@ public class Book {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
     private List<Review> reviews;
 
-    public Book(String name, Set<Genre> bookGenres, Set<Author> bookAuthors) {
+    public Book(String name, Genre genre, Set<Author> bookAuthors) {
         this.name = name;
-        this.bookGenres = bookGenres;
+        this.bookGenre = genre;
         this.authors = bookAuthors;
     }
 
@@ -45,12 +46,12 @@ public class Book {
         this.name = name;
     }
 
-    public Set<Genre> getBookGenres() {
-        return bookGenres;
+    public Genre getBookGenre() {
+        return bookGenre;
     }
 
-    public void setBookGenres(Set<Genre> bookGenre) {
-        this.bookGenres = bookGenre;
+    public void setBookGenre(Genre bookGenre) {
+        this.bookGenre = bookGenre;
     }
 
     public Long getId() {

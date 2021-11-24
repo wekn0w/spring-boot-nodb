@@ -58,11 +58,8 @@ public class BookServiceImpl implements BookService {
         if (book.getName() != null && !book.getName().isEmpty()) {
             newBook.setName(book.getName());
         }
-        if (book.getBookGenres() != null) {
-            //todo подумать над возможном NPE в лямбде
-            List<Genre> genreById = genreRepository.findAllById(book.getBookGenres().stream().map(GenreDto::getId).collect(toSet()));
-            Set<Genre> genres = Set.copyOf(genreById);
-            newBook.setBookGenres(genres);
+        if (book.getBookGenre() != null) {
+            newBook.setBookGenre(genreRepository.findById(book.getBookGenre().getId()).orElse(null));
         }
         if (book.getBookAuthors() != null) {
             List<Author> authorById = authorRepository.findAllById(book.getBookAuthors().stream().map(AuthorDto::getId).collect(toSet()));
@@ -73,7 +70,6 @@ public class BookServiceImpl implements BookService {
         return bookAdapter.convertToDto(saved);
     }
 
-    @Transactional
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);

@@ -3,10 +3,8 @@ package web.service;
 import org.springframework.stereotype.Service;
 import web.domain.Author;
 import web.domain.Book;
-import web.domain.Genre;
 import web.dto.AuthorDto;
 import web.dto.BookDto;
-import web.dto.GenreDto;
 import web.repo.AuthorRepo;
 import web.repo.BookRepo;
 import web.repo.GenreRepo;
@@ -22,10 +20,10 @@ import static java.util.stream.Collectors.toSet;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookRepo bookRepository;
-    private final GenreRepo genreRepository;
-    private final AuthorRepo authorRepository;
-    private final BookAdapter bookAdapter;
+    private BookRepo bookRepository;
+    private GenreRepo genreRepository;
+    private AuthorRepo authorRepository;
+    private BookAdapter bookAdapter;
 
     public BookServiceImpl(BookRepo bookRepository, GenreRepo genreRepository, AuthorRepo authorRepository, BookAdapter bookAdapter) {
         this.bookRepository = bookRepository;
@@ -58,11 +56,8 @@ public class BookServiceImpl implements BookService {
         if (book.getName() != null && !book.getName().isEmpty()) {
             newBook.setName(book.getName());
         }
-        if (book.getBookGenres() != null) {
-            //todo подумать над возможном NPE в лямбде
-            List<Genre> genreById = genreRepository.findAllById(book.getBookGenres().stream().map(GenreDto::getId).collect(toSet()));
-            Set<Genre> genres = Set.copyOf(genreById);
-            newBook.setBookGenres(genres);
+        if (book.getBookGenre() != null) {
+            newBook.setBookGenre(genreRepository.findById(book.getBookGenre().getId()).orElse(null));
         }
         if (book.getBookAuthors() != null) {
             List<Author> authorById = authorRepository.findAllById(book.getBookAuthors().stream().map(AuthorDto::getId).collect(toSet()));

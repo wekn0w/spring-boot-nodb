@@ -49,7 +49,6 @@ public class AuthorServiceImpl implements AuthorService {
         return new AuthorDto(saved.getId(), saved.getFullname(), saved.getAge());
     }
 
-    @Transactional//for JpaRepository.deleteById
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);

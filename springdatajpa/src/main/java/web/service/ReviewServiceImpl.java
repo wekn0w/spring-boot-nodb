@@ -8,6 +8,7 @@ import web.repo.BookRepo;
 import web.repo.ReviewRepo;
 import web.utils.BookAdapter;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         return new ReviewDto(stored.getId(), stored.getComment());
     }
 
+    @Transactional
     @Override
     public ReviewDto save(ReviewDto review) {
         Review newReview = reviewRepository.findById(review.getId()).orElse(new Review());

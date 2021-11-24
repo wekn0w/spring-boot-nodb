@@ -10,9 +10,7 @@ public interface BookService {
 
     BookDto getOneById(Long id);
 
-    @Transactional
     BookDto save(BookDto person);
 
-    @Transactional
     void deleteById(Long id);
 }

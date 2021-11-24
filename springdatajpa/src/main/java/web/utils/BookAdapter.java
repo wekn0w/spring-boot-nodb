@@ -17,10 +17,8 @@ public class BookAdapter {
             return null;
         BookDto dto = new BookDto(saved.getName());
         dto.setId(saved.getId());
-        Set<GenreDto> genreDtoSet = new HashSet<>();
-        if (saved.getBookGenres() != null)
-            saved.getBookGenres().forEach(i -> genreDtoSet.add(new GenreDto(i.getId(), i.getName())));
-        dto.setBookGenres(genreDtoSet);
+        if (saved.getBookGenre() != null)
+            dto.setBookGenre(new GenreDto(saved.getBookGenre().getId(), saved.getBookGenre().getName()));
         Set<AuthorDto> authorDtoSet = new HashSet<>();
         if (saved.getAuthors() != null) {
             saved.getAuthors().forEach(i -> authorDtoSet.add(new AuthorDto(i.getId(), i.getFullname(), i.getAge())));

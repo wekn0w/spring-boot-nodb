@@ -5,7 +5,7 @@ import java.util.Set;
 public class BookDto {
     private Long id;
     private String name;
-    Set<GenreDto> bookGenres;
+    GenreDto bookGenre;
     Set<AuthorDto> bookAuthors;
 
     public BookDto() {
@@ -15,9 +15,9 @@ public class BookDto {
         this.name = name;
     }
 
-    public BookDto(String name, Set<GenreDto> bookGenres, Set<AuthorDto> bookAuthors) {
+    public BookDto(String name, GenreDto bookGenre, Set<AuthorDto> bookAuthors) {
         this.name = name;
-        this.bookGenres = bookGenres;
+        this.bookGenre = bookGenre;
         this.bookAuthors = bookAuthors;
     }
 
@@ -37,12 +37,12 @@ public class BookDto {
         this.id = id;
     }
 
-    public Set<GenreDto> getBookGenres() {
-        return bookGenres;
+    public GenreDto getBookGenre() {
+        return bookGenre;
     }
 
-    public void setBookGenres(Set<GenreDto> bookGenres) {
-        this.bookGenres = bookGenres;
+    public void setBookGenre(GenreDto bookGenre) {
+        this.bookGenre = bookGenre;
     }
 
     public Set<AuthorDto> getBookAuthors() {

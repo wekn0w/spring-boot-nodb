@@ -49,7 +49,7 @@ class ReviewServiceImplTest {
                 () -> assertThat(saved.getBook()).isNotNull(),
                 () -> assertThat(saved.getBook().getName()).isGreaterThanOrEqualTo("Lukomorie"),
                 () -> assertThat(saved.getBook().getBookAuthors()).isEqualTo(new HashSet<>()),
-                () -> assertThat(saved.getBook().getBookGenres()).isEqualTo(new HashSet<>())
+                () -> assertThat(saved.getBook().getBookGenre()).isEqualTo(null)
         );
     }
 

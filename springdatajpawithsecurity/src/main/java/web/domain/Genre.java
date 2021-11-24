@@ -10,8 +10,7 @@ public class Genre {
     private Long id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BOOK_ID")
+    @OneToMany(mappedBy = "bookGenre")
     private Book book;
 
     public Genre() {
