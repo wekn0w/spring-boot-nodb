@@ -18,33 +18,28 @@ public class AuthorController {
         this.service = service;
     }
 
-    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     @GetMapping(value = "/author")
     public List<AuthorDto> get() {
         return service.findAll();
     }
 
-    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     @GetMapping("/author/{id}")
     public AuthorDto getById(@PathVariable("id") Long id) throws NotFoundException {
         return service.getOneById(id);
     }
 
-    @PreAuthorize("hasAuthority('admin')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/author/")
     public AuthorDto create(@RequestBody AuthorDto dto) {
         return service.save(dto);
     }
 
-    @PreAuthorize("hasAuthority('admin')")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping("/author/{id}")
     public void delete(@PathVariable("id") Long id) {
         service.deleteById(id);
     }
 
-    @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/author/{id}/name")
     public void changeName(
             @PathVariable("id") Long id,

@@ -17,32 +17,27 @@ public class GenreController {
         this.service = service;
     }
 
-    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     @GetMapping(value = "/genre")
     public List<GenreDto> get() {
         return service.findAll();
     }
 
-    @PreAuthorize("hasAnyAuthority('admin', 'user')")
     @GetMapping("/genre/{id}")
     public GenreDto getById(@PathVariable("id") Long id) {
         return service.getOneById(id);
     }
 
-    @PreAuthorize("hasAuthority('admin')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/genre/")
     public GenreDto create(@RequestBody GenreDto dto) {
         return service.save(dto);
     }
 
-    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/genre/{id}")
     public void delete(@PathVariable("id") Long id) {
         service.deleteById(id);
     }
 
-    @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/genre/{id}/name")
     public void changeName(
             @PathVariable("id") Long id,

@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -35,12 +36,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> findAll() {
         List<Book> books = bookRepository.findAll();
-        List<BookDto> resultList = new ArrayList<>();
-        for (Book record : books) {
-            BookDto dto = bookAdapter.convertToDto(record);
-            resultList.add(dto);
-        }
-        return resultList;
+        return books.stream().map(record -> bookAdapter.convertToDto(record)).collect(Collectors.toList());
     }
 
     @Override

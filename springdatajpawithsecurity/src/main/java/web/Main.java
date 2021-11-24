@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import web.domain.Permission;
 import web.domain.Role;
 import web.domain.User;
 import web.repo.RoleRepo;
 import web.repo.UserRepo;
 
 import javax.annotation.PostConstruct;
+import java.util.Set;
 
 @SpringBootApplication
 public class Main {
@@ -26,8 +28,10 @@ public class Main {
     @PostConstruct
     public void init() {
         Role admin = new Role("admin");
+        admin.setPermissions(Set.of(Permission.RECORD_READ, Permission.RECORD_WRITE));
         roleRepo.save(admin);
         Role user = new Role("user");
+        admin.setPermissions(Set.of(Permission.RECORD_READ));
         roleRepo.save(user);
 
         User user1 = new User();

@@ -1,7 +1,5 @@
 package web.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,15 +7,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import web.dto.UserDto;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service("userDetailService")
 public class AuthenticationProvider implements UserDetailsService {
 
     private final UserService service;
 
-    @Autowired
     public AuthenticationProvider(UserService service) {
         this.service = service;
     }
@@ -30,14 +28,15 @@ public class AuthenticationProvider implements UserDetailsService {
             if (user == null) {
                 throw new UsernameNotFoundException("Can't find user with username: \"" + s + "\"");
             }
-            List<GrantedAuthority> authorities = new ArrayList();
-            if (user.getRole() != null)
-                authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+            Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+            if (user.getRole() != null && user.getRole().getPermissions() != null)
+                authorities = user.getRole().getPermissions().stream().
+                        map(permission -> new SimpleGrantedAuthority(permission.getPermission())).
+                        collect(Collectors.toSet());
             return new org.springframework.security.core.userdetails.User(
                     user.getEmail(),
                     user.getPassword(),
-                    authorities
-            );
+                    authorities);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
