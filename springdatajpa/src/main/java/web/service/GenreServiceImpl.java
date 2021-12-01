@@ -1,12 +1,10 @@
 package web.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.domain.Genre;
 import web.dto.GenreDto;
 import web.repo.GenreRepo;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,6 @@ public class GenreServiceImpl implements GenreService {
 
     private GenreRepo genreRepository;
 
-    @Autowired
     public GenreServiceImpl(GenreRepo genreRepository) {
         this.genreRepository = genreRepository;
     }

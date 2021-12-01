@@ -52,6 +52,7 @@
     <modules>
         <module>nodb</module>
         <module>springdatajpa</module>
+        <module>springdatajpawithsecurity</module>
     </modules>
 
 </project>

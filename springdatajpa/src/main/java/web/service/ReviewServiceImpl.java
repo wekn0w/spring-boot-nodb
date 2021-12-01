@@ -1,6 +1,5 @@
 package web.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.domain.Book;
 import web.domain.Review;
@@ -9,6 +8,7 @@ import web.repo.BookRepo;
 import web.repo.ReviewRepo;
 import web.utils.BookAdapter;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +17,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     private ReviewRepo reviewRepository;
     private BookRepo bookRepository;
+    private BookAdapter bookAdapter;
 
-    @Autowired
-    public ReviewServiceImpl(ReviewRepo reviewRepository, BookRepo bookRepository) {
+    public ReviewServiceImpl(ReviewRepo reviewRepository, BookRepo bookRepository, BookAdapter bookAdapter) {
         this.reviewRepository = reviewRepository;
         this.bookRepository = bookRepository;
+        this.bookAdapter = bookAdapter;
     }
 
 
@@ -29,7 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDto> findAll() {
         List<Review> reviews = reviewRepository.findAll();
         List<ReviewDto> resultList = new ArrayList<>();
-        reviews.forEach(i -> resultList.add(new ReviewDto(i.getId(), i.getComment(), new BookAdapter().convertToDto(i.getBook()))));
+        reviews.forEach(i -> resultList.add(new ReviewDto(i.getId(), i.getComment(), bookAdapter.convertToDto(i.getBook()))));
         return resultList;
     }
 
@@ -39,6 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         return new ReviewDto(stored.getId(), stored.getComment());
     }
 
+    @Transactional
     @Override
     public ReviewDto save(ReviewDto review) {
         Review newReview = reviewRepository.findById(review.getId()).orElse(new Review());
@@ -50,7 +52,7 @@ public class ReviewServiceImpl implements ReviewService {
             newReview.setBook(savedBook);
         }
         Review saved = reviewRepository.save(newReview);
-        return new ReviewDto(saved.getId(), saved.getComment(), new BookAdapter().convertToDto(saved.getBook()));
+        return new ReviewDto(saved.getId(), saved.getComment(), bookAdapter.convertToDto(saved.getBook()));
     }
 
     @Override

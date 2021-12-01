@@ -10,9 +10,7 @@ public interface GenreService {
 
     GenreDto getOneById(Long id);
 
-    @Transactional
     GenreDto save(GenreDto genre);
 
-    @Transactional
     void deleteById(Long id);
 }

@@ -1,6 +1,5 @@
 package web.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.domain.Author;
 import web.domain.Book;
@@ -26,19 +25,19 @@ public class BookServiceImpl implements BookService {
     private BookRepo bookRepository;
     private GenreRepo genreRepository;
     private AuthorRepo authorRepository;
+    private BookAdapter bookAdapter;
 
-    @Autowired
-    public BookServiceImpl(BookRepo bookRepository, GenreRepo genreRepository, AuthorRepo authorRepository) {
+    public BookServiceImpl(BookRepo bookRepository, GenreRepo genreRepository, AuthorRepo authorRepository, BookAdapter bookAdapter) {
         this.bookRepository = bookRepository;
         this.genreRepository = genreRepository;
         this.authorRepository = authorRepository;
+        this.bookAdapter = bookAdapter;
     }
 
     @Override
     public List<BookDto> findAll() {
         List<Book> books = bookRepository.findAll();
         List<BookDto> resultList = new ArrayList<>();
-        BookAdapter bookAdapter = new BookAdapter();
         for (Book record : books) {
             BookDto dto = bookAdapter.convertToDto(record);
             resultList.add(dto);
@@ -59,11 +58,8 @@ public class BookServiceImpl implements BookService {
         if (book.getName() != null && !book.getName().isEmpty()) {
             newBook.setName(book.getName());
         }
-        if (book.getBookGenres() != null) {
-            //todo подумать над возможном NPE в лямбде
-            List<Genre> genreById = genreRepository.findAllById(book.getBookGenres().stream().map(GenreDto::getId).collect(toSet()));
-            Set<Genre> genres = Set.copyOf(genreById);
-            newBook.setBookGenres(genres);
+        if (book.getBookGenre() != null) {
+            newBook.setBookGenre(genreRepository.findById(book.getBookGenre().getId()).orElse(null));
         }
         if (book.getBookAuthors() != null) {
             List<Author> authorById = authorRepository.findAllById(book.getBookAuthors().stream().map(AuthorDto::getId).collect(toSet()));
@@ -71,10 +67,9 @@ public class BookServiceImpl implements BookService {
             newBook.setAuthors(authors);
         }
         Book saved = bookRepository.save(newBook);
-        return new BookAdapter().convertToDto(saved);
+        return bookAdapter.convertToDto(saved);
     }
 
-    @Transactional
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);

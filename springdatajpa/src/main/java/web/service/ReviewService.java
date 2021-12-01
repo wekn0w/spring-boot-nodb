@@ -10,9 +10,7 @@ public interface ReviewService {
 
     ReviewDto getOneById(Long id);
 
-    @Transactional
     ReviewDto save(ReviewDto person);
 
-    @Transactional
     void deleteById(Long id);
 }
