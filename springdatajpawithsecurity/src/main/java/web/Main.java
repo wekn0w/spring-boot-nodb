@@ -28,10 +28,10 @@ public class Main {
     @PostConstruct
     public void init() {
         Role admin = new Role("admin");
-        admin.setPermissions(Set.of(Permission.RECORD_READ, Permission.RECORD_WRITE));
+        admin.setPermissions(Set.of(Permission.RECORD_READ.getPermission(), Permission.RECORD_WRITE.getPermission()));
         roleRepo.save(admin);
         Role user = new Role("user");
-        admin.setPermissions(Set.of(Permission.RECORD_READ));
+        admin.setPermissions(Set.of(Permission.RECORD_READ.getPermission()));
         roleRepo.save(user);
 
         User user1 = new User();
