@@ -17,11 +17,8 @@ import web.domain.Permission;
 
 
 @Configuration
-//@EnableWebSecurity //в буте уже активировано после подключения депенденси
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Qualifier("userDetailService")
     UserDetailsService userDetailsService;
 
     @Autowired
@@ -48,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers(HttpMethod.GET, "/**").hasAuthority(Permission.RECORD_READ.getPermission()).
                 antMatchers(HttpMethod.POST, "/**").hasAuthority(Permission.RECORD_WRITE.getPermission()).
                 antMatchers(HttpMethod.DELETE, "/**").hasAuthority(Permission.RECORD_WRITE.getPermission()).
+                antMatchers("/**").denyAll().
                 anyRequest().authenticated().and().httpBasic();
     }
 

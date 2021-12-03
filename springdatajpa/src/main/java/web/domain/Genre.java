@@ -1,6 +1,7 @@
 package web.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Genre")
@@ -11,7 +12,7 @@ public class Genre {
     private String name;
 
     @OneToMany(mappedBy = "bookGenre")
-    private Book book;
+    private List<Book> book;
 
     public Genre() {
     }
@@ -36,11 +37,11 @@ public class Genre {
         this.id = id;
     }
 
-    public Book getBook() {
+    public List<Book> getBook() {
         return book;
     }
 
-    public void setBook(Book book) {
+    public void setBook(List<Book> book) {
         this.book = book;
     }
 }

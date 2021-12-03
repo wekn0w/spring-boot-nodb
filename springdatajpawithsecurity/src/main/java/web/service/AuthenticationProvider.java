@@ -31,7 +31,7 @@ public class AuthenticationProvider implements UserDetailsService {
             Set<SimpleGrantedAuthority> authorities = new HashSet<>();
             if (user.getRole() != null && user.getRole().getPermissions() != null)
                 authorities = user.getRole().getPermissions().stream().
-                        map(permission -> new SimpleGrantedAuthority(permission.getPermission())).
+                        map(SimpleGrantedAuthority::new).
                         collect(Collectors.toSet());
             return new org.springframework.security.core.userdetails.User(
                     user.getEmail(),

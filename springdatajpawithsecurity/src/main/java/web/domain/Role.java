@@ -1,6 +1,7 @@
 package web.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,7 +11,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private Set<Permission> permissions;
+
+    @Column
+    @ElementCollection
+    private Set<String> permissions = new HashSet();;
 
     public Role() {
     }
@@ -35,11 +39,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set<Permission> getPermissions() {
+    public Set<String> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(Set<Permission> permissions) {
+    public void setPermissions(Set<String> permissions) {
         this.permissions = permissions;
     }
 }
