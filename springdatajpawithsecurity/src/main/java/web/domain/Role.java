@@ -13,7 +13,7 @@ public class Role {
     private String name;
 
     @Column
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     private Set<String> permissions = new HashSet();;
 
     public Role() {
